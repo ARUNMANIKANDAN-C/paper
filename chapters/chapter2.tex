@@ -1,0 +1,360 @@
+\label{chap.2}
+\label{chap:literature}
+
+\section{Introduction}
+
+Lithium-ion batteries are widely used in electric vehicles because of
+their high energy density, high efficiency, and long cycle life.
+However, safe and efficient battery operation requires effective
+battery management systems (BMS). A BMS is responsible for monitoring
+battery states, controlling charging and discharging, estimating
+battery health, and preventing unsafe operating conditions.
+
+Conventional battery charging methods are generally based on predefined
+rules, while model-based methods use mathematical representations of
+battery behaviour. More recently, reinforcement learning (RL) and
+multi-agent reinforcement learning (MARL) have been investigated for
+adaptive battery control. These methods provide opportunities to
+optimize charging performance while considering battery health and
+operating constraints.
+
+This chapter reviews the major approaches related to battery charging,
+battery state estimation, reinforcement learning, multi-agent battery
+management, and safe reinforcement learning. The limitations of these
+approaches are then analysed to identify the research gaps addressed by
+the proposed multi-agent battery management framework.
+
+\section{Conventional Battery Charging Methods}
+
+The constant-current constant-voltage (CC-CV) method is one of the
+most widely used charging strategies for lithium-ion batteries. During
+the constant-current stage, the battery is charged using a predefined
+current until the terminal voltage reaches a specified limit. The
+charger then enters the constant-voltage stage, where the voltage is
+maintained while the charging current gradually decreases.
+
+Other charging strategies, including multi-stage constant-current and
+pulse charging, have also been investigated to improve charging
+performance. These approaches can modify the charging current according
+to predefined operating conditions.
+
+However, conventional charging strategies generally use fixed rules.
+They do not dynamically adapt the charging policy according to changes
+in battery ageing, internal resistance, temperature, or operating
+conditions. Consequently, a charging strategy that performs well for a
+new battery may not provide the same performance for an aged battery.
+
+Therefore, conventional charging methods provide a reliable baseline,
+but their limited adaptability creates a need for more intelligent
+charging strategies.
+
+\section{Battery Management Systems and State Estimation}
+
+A battery management system continuously monitors important battery
+variables such as voltage, current, temperature, state of charge (SoC),
+and state of health (SoH). Accurate estimation of these states is
+essential because they directly influence charging decisions and safety.
+
+State estimation methods can generally be divided into model-based and
+data-driven approaches. Model-based methods use battery models together
+with measurements to estimate internal battery states. The Extended
+Kalman Filter (EKF) is a commonly used approach for estimating SoC and
+other battery parameters.
+
+Battery ageing introduces additional difficulties because parameters
+such as internal resistance and available capacity change over the
+battery lifetime. An estimator designed using nominal battery
+parameters may therefore become less accurate when the battery
+degrades.
+
+This indicates the importance of considering battery ageing when
+designing both state estimation and charging-control strategies.
+
+\section{Battery Ageing and State-of-Health Estimation}
+
+Battery ageing is associated with capacity loss, increasing internal
+resistance, and changes in the electrochemical behaviour of the cell.
+These changes affect the voltage, temperature, charging time, and
+available energy of the battery.
+
+State-of-health estimation methods attempt to quantify the degradation
+of a battery using measurements such as voltage, current, temperature,
+capacity, and internal resistance. Both model-based and
+machine-learning-based approaches have been investigated for this
+purpose.
+
+Accurate SoH information is particularly important for charging
+control. A charging current that is acceptable for a healthy battery
+may become unsuitable as internal resistance increases with ageing.
+
+However, many battery-control approaches are evaluated using nominal
+or relatively fixed battery parameters. This creates a gap between
+battery-health estimation and adaptive charging control.
+
+\section{Model-Based Battery Charging Control}
+
+Model Predictive Control (MPC) is an important model-based approach for
+battery charging. MPC predicts the future behaviour of the battery over
+a finite time horizon and determines a control action while considering
+system constraints.
+
+Electrochemical models such as the Single Particle Model (SPM) and
+Doyle--Fuller--Newman (DFN) models can be used to represent battery
+dynamics. These models can provide information about internal battery
+states and can be incorporated into constrained charging control.
+
+The main advantage of MPC is its ability to explicitly consider
+constraints such as voltage, temperature, and charging-current limits.
+However, its performance depends strongly on the accuracy of the
+battery model and its parameters. Detailed electrochemical models can
+also introduce considerable computational requirements.
+
+Furthermore, battery parameters change with ageing. Therefore, a
+controller based on fixed model parameters may not accurately represent
+an aged battery.
+
+Thus, model-based control provides strong constraint-handling
+capabilities but remains sensitive to model accuracy and parameter
+variation.
+
+\section{Reinforcement Learning for Battery Charging}
+
+Reinforcement learning provides an alternative approach in which an
+agent learns a charging policy through interactions with a battery
+environment. Deep reinforcement learning methods such as Deep
+Deterministic Policy Gradient (DDPG), Deep Q-Networks (DQN), and
+Proximal Policy Optimization (PPO) can be used for continuous or
+discrete charging-control problems.
+
+An RL charging agent typically receives battery states such as SoC,
+voltage, and temperature and produces a charging action. The agent is
+then evaluated using a reward function.
+
+RL provides an important advantage because the controller can learn
+nonlinear relationships between battery states and charging actions.
+However, several objectives may need to be considered simultaneously.
+For example, a charging controller may need to minimize charging time
+while also reducing temperature rise and battery degradation.
+
+These objectives are commonly combined into a single scalar reward.
+The resulting behaviour depends on the selected reward weights. A
+change in these weights can therefore change the balance between
+charging speed, battery health, and safety.
+
+Another limitation is that a learned policy does not inherently
+guarantee that hard physical constraints will always be satisfied.
+
+\section{Multi-Agent Reinforcement Learning for Battery Management}
+
+Multi-Agent Reinforcement Learning (MARL) extends reinforcement
+learning by allowing multiple agents to interact with the same
+environment. MARL has been investigated in areas such as energy
+management, energy-storage systems, and battery systems.
+
+In many existing battery-related MARL approaches, agents are assigned
+according to physical components. For example, different cells or
+energy-storage components may be represented by individual agents.
+These agents then cooperate to achieve a common objective.
+
+An alternative approach is to divide the control problem according to
+functional objectives rather than physical components. For battery
+management, different agents can therefore be responsible for
+different aspects of the decision-making process.
+
+Such functional decomposition can separate charging objectives from
+battery-health considerations and provide a more modular control
+architecture.
+
+However, the literature provides limited investigation of functional
+multi-agent decomposition specifically for EV battery charging while
+simultaneously considering battery health and safety constraints.
+
+\section{Safe and Constraint-Aware Reinforcement Learning}
+
+Safety is a critical requirement in battery charging because excessive
+voltage, temperature, or current can damage the battery.
+
+Safe reinforcement learning attempts to incorporate safety constraints
+into the learning process. Approaches include constrained policy
+optimization, safety penalties, safety filters, and control-barrier
+function-based methods.
+
+A major limitation of penalty-based approaches is that safety is
+represented indirectly through the reward. A sufficiently large
+penalty may discourage unsafe behaviour, but it does not necessarily
+provide a deterministic guarantee that a physical constraint will
+never be violated.
+
+Safety-filter approaches can provide an additional layer between the
+learned policy and the physical system. However, their effectiveness
+depends on the accuracy of the observed battery state and the model
+used to determine safe actions.
+
+For battery systems, this motivates an architecture in which the
+learning agents propose actions while an independent safety mechanism
+enforces hard operating limits.
+
+\section{Empirical Battery Data and Evaluation}
+
+Battery-control research commonly uses battery simulators and
+experimental datasets to evaluate algorithms. Battery ageing datasets
+provide measurements of voltage, current, temperature, capacity, and
+other variables across repeated charge and discharge cycles.
+
+However, differences in data collection procedures, operating
+conditions, battery ageing behaviour, and failure definitions can
+affect the interpretation of experimental results.
+
+Similarly, remaining useful life (RUL) prediction requires careful
+consideration of battery degradation and available failure data.
+Evaluation becomes difficult when only a limited number of batteries
+reach the defined end-of-life condition.
+
+Therefore, battery-control research requires both appropriate physical
+modelling and careful evaluation of the underlying experimental data.
+
+\section{Summary of the Reviewed Works}
+
+The reviewed approaches can be summarized according to their primary
+strengths and limitations.
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of reviewed battery management approaches.}
+\label{tab:literature_summary}
+\begin{tabular}{p{3.0cm}p{4.0cm}p{4.5cm}}
+\toprule
+\textbf{Approach} & \textbf{Main Strength} & \textbf{Main Limitation} \\
+\midrule
+CC-CV and rule-based control &
+Simple and reliable implementation &
+Limited adaptation to ageing and changing conditions \\
+
+MPC &
+Explicit handling of system constraints &
+Dependent on model accuracy and computational resources \\
+
+State estimation &
+Provides estimates of SoC, SoH, and battery parameters &
+Accuracy can degrade when battery parameters change with ageing \\
+
+Single-Agent RL &
+Adaptive nonlinear control and optimization &
+Multiple objectives are often combined into a single reward \\
+
+Multi-Agent RL &
+Allows decomposition of complex control problems &
+Limited work on functional decomposition for battery charging \\
+
+Safe RL &
+Introduces safety constraints into learned control &
+Safety may depend on reward design, observations, or model accuracy \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The reviewed literature shows that no single approach simultaneously
+provides adaptive charging control, explicit consideration of battery
+health, functional decomposition of control objectives, and an
+independent mechanism for enforcing safety constraints.
+
+\section{Research Gap}
+
+Based on the reviewed literature, the following research gaps are
+identified.
+
+\subsection{Gap 1: Limited Ageing-Aware Charging Control}
+
+Many charging-control approaches use fixed or nominal battery
+parameters. Since battery resistance and capacity change with ageing,
+a controller designed for a healthy battery may not remain optimal
+throughout the battery lifetime.
+
+\subsection{Gap 2: Objective Entanglement in Single-Agent RL}
+
+Single-agent reinforcement learning commonly combines charging time,
+battery degradation, temperature, and safety into one reward function.
+The resulting behaviour can become sensitive to reward-weight
+selection.
+
+A more modular approach is required to separate different functional
+objectives.
+
+\subsection{Gap 3: Lack of Independent Hard Safety Enforcement}
+
+Reward penalties alone cannot guarantee that a learned policy will
+always satisfy physical voltage, temperature, and current constraints.
+
+An independent safety mechanism is therefore required to verify and,
+when necessary, modify the action proposed by the learning agent.
+
+\subsection{Gap 4: Limited Integration of Battery Health with Charging Control}
+
+Battery-health estimation and charging control are often treated as
+separate problems. There is a need to incorporate health information
+directly into the charging decision process so that charging
+performance and long-term battery health can be considered together.
+
+\subsection{Gap 5: Limited Robustness and Empirical Evaluation}
+
+Battery models and learned policies can be affected by sensor noise,
+model mismatch, operating-condition changes, and battery ageing.
+Therefore, evaluation under different conditions is necessary to
+determine whether a controller is robust.
+
+\section{Research Positioning}
+
+The identified gaps motivate the development of a Multi-Agent Battery
+Management System (MA-BMS). The framework considered in this thesis
+uses functional decomposition in which charging and battery-health
+objectives are handled by separate learning components, while a
+dedicated safety supervisor provides an additional safety layer.
+
+The overall research direction can therefore be summarized as follows:
+
+\begin{table}[htbp]
+\centering
+\caption{Research gaps and corresponding research direction.}
+\label{tab:research_positioning}
+\begin{tabular}{p{4.2cm}p{7.0cm}}
+\toprule
+\textbf{Research Gap} & \textbf{Research Direction} \\
+\midrule
+Ageing-unaware control &
+Incorporate battery ageing information into the control process \\
+
+Objective entanglement &
+Use functional multi-agent decomposition \\
+
+Lack of hard safety &
+Use an independent safety-supervision layer \\
+
+Separated health and charging decisions &
+Integrate battery-health information into charging control \\
+
+Limited robustness &
+Evaluate the controller under different operating and uncertainty
+conditions \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Chapter Summary}
+
+This chapter reviewed conventional battery charging, battery state
+estimation, battery ageing and SoH estimation, model-based control,
+reinforcement learning, multi-agent reinforcement learning, and safe
+reinforcement learning.
+
+The review shows that conventional and model-based methods provide
+strong physical interpretability and constraint handling but can be
+limited by fixed rules, model accuracy, and computational requirements.
+Reinforcement learning provides adaptive control but commonly combines
+multiple objectives through a single reward function. Multi-agent
+reinforcement learning provides an opportunity to decompose these
+objectives, while a separate safety mechanism can address the
+limitations of purely learned control.
+
+These observations establish the research gaps addressed by the
+proposed MA-BMS framework. The following chapter presents the
+methodology and system architecture used to address these gaps.

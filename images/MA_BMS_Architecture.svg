@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#222"/>
+    </marker>
+    <style>
+      .title { font: 700 27px Arial, Helvetica, sans-serif; fill:#111; }
+      .box-title { font: 700 20px Arial, Helvetica, sans-serif; fill:#111; }
+      .box-text { font: 17px Arial, Helvetica, sans-serif; fill:#222; }
+      .small { font: 16px Arial, Helvetica, sans-serif; fill:#333; }
+      .box { fill:#fff; stroke:#222; stroke-width:2.2; rx:14; }
+      .arrow { stroke:#222; stroke-width:2.5; fill:none; marker-end:url(#arrow); }
+      .feedback { stroke:#555; stroke-width:2; fill:none; stroke-dasharray:8 7; marker-end:url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1200" height="760" fill="#fff"/>
+
+  <text x="600" y="45" text-anchor="middle" class="title">
+    Multi-Agent Battery Management System (MA-BMS)
+  </text>
+
+  <!-- Measurements -->
+  <rect x="70" y="105" width="270" height="105" class="box"/>
+  <text x="205" y="140" text-anchor="middle" class="box-title">Battery Plant Measurements</text>
+  <text x="205" y="173" text-anchor="middle" class="box-text">Vₜ, I, Tₘₑₐₛ</text>
+
+  <!-- EKF -->
+  <rect x="465" y="95" width="270" height="125" class="box"/>
+  <text x="600" y="135" text-anchor="middle" class="box-title">4-State Adaptive EKF</text>
+  <text x="600" y="169" text-anchor="middle" class="box-text">SOC, V₁, Q, R₀</text>
+  <text x="600" y="196" text-anchor="middle" class="small">State estimation</text>
+
+  <path d="M340 157 L465 157" class="arrow"/>
+
+  <!-- Proposers -->
+  <rect x="75" y="320" width="290" height="125" class="box"/>
+  <text x="220" y="356" text-anchor="middle" class="box-title">Speed Proposer</text>
+  <text x="220" y="390" text-anchor="middle" class="box-text">Iₛₚₑₑd</text>
+  <text x="220" y="419" text-anchor="middle" class="small">Charging-speed objective</text>
+
+  <rect x="455" y="320" width="290" height="125" class="box"/>
+  <text x="600" y="356" text-anchor="middle" class="box-title">Thermal Proposer</text>
+  <text x="600" y="390" text-anchor="middle" class="box-text">Iₜₕₑᵣₘₐₗ</text>
+  <text x="600" y="419" text-anchor="middle" class="small">Temperature regulation</text>
+
+  <rect x="835" y="320" width="290" height="125" class="box"/>
+  <text x="980" y="356" text-anchor="middle" class="box-title">Health Proposer</text>
+  <text x="980" y="390" text-anchor="middle" class="box-text">Iₕₑₐₗₜₕ</text>
+  <text x="980" y="419" text-anchor="middle" class="small">Degradation awareness</text>
+
+  <!-- EKF to proposers -->
+  <path d="M600 220 L600 280" class="arrow"/>
+  <path d="M600 280 L220 280 L220 320" class="arrow"/>
+  <path d="M600 280 L600 320" class="arrow"/>
+  <path d="M600 280 L980 280 L980 320" class="arrow"/>
+
+  <!-- Aggregation -->
+  <rect x="355" y="500" width="490" height="100" class="box"/>
+  <text x="600" y="540" text-anchor="middle" class="box-title">Aggregation / Coordination Layer</text>
+  <text x="600" y="573" text-anchor="middle" class="box-text">Candidate current selection</text>
+
+  <path d="M220 445 L220 470 L470 470 L470 500" class="arrow"/>
+  <path d="M600 445 L600 500" class="arrow"/>
+  <path d="M980 445 L980 470 L730 470 L730 500" class="arrow"/>
+
+  <!-- Safety -->
+  <rect x="400" y="650" width="400" height="75" class="box"/>
+  <text x="600" y="681" text-anchor="middle" class="box-title">Deterministic Safety Supervisor</text>
+  <text x="600" y="708" text-anchor="middle" class="box-text">Iₛₐfₑ</text>
+
+  <path d="M600 600 L600 650" class="arrow"/>
+
+  <!-- Plant feedback -->
+  <path d="M800 687 L1080 687 L1080 157 L735 157" class="feedback"/>
+  <text x="1092" y="430" class="small" transform="rotate(90 1092 430)">Battery feedback</text>
+
+  <!-- Actuator / plant conceptual label -->
+  <text x="600" y="748" text-anchor="middle" class="small">→ Actuator / Battery Plant</text>
+</svg>
